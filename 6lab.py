@@ -1,6 +1,6 @@
 
 INF = 1000000
-G = [[[1,2], [2,3]],[[3,13],[0, 2],[2, 0]],[[3,6],[0,3]],[[2, 6],[1, 13]]] #graph
+G = [[[1,2], [2,3]],[[3,13],[0, 2],[2, 0]],[[3,6],[0,3],[1, 0],[4,7]],[[2, 6],[1, 13],[4,12]],[[3,12], [2, 7]]] #graph
 #G = [[[1,2], [2,3]],[[3,9],],[[3,6],],[[2, 6],[1, 9]]] #graph
 D = [] # lenghts
 U = [] # marks
@@ -8,7 +8,7 @@ P = dict() # parents
 
 
 def main():
-	n = 4
+	n = 5
 	global D, U
 	D = [INF] * n
 	U = [False] * n
@@ -45,14 +45,23 @@ def find(n, s):
 				D[to] = D[v] + l
 				#print("P[to] {}, V {}".format(to, v))
 				if to in P:
-					P[to].append(v)
+					P[to] = v
 				else:
-					P[to] = [v,]
+					P[to] = v
 	print(D)
-	for j in range(n):
-		print("Node {}, shortest path {}".format(j,D[j]))
+	print(P)
+	for j in range(1,n):
+		print("Node {}, shortest path {}  Parent: ".format(j,D[j]))
+		prev_parent = ""
+		for p in range(1,j+1):
+			parent = P[p]
+			if parent != prev_parent:
+				print("{}   ".format(parent))
+			prev_parent = parent
 
-	print("p ", P)
+
+
+	#print("p ", P)
 
 
 if __name__ == "__main__":
