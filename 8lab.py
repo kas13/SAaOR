@@ -14,9 +14,9 @@ def dfs(t):
 
 	while stack != []:
 		node = stack.pop()
-		print("node ", node)
+		#print("node ", node)
 		for edge in node:
-			print("  edge   ", edge)
+			#print("  edge   ", edge)
 			if edge[0] == t:
 				#print("victori")
 				path.append(edge[0])
@@ -26,8 +26,9 @@ def dfs(t):
 			elif edge[1] > edge[2]:
 				U[edge[0]] = True
 				stack.append(G[edge[0]])
-				print("append ",G[edge[0]] )
+				#print("append ",G[edge[0]] )
 				path.append(edge[0])
+				#print("append edge  ",edge )
 	return False
 
 
@@ -43,17 +44,25 @@ def recovery_path(temp_path,t):
 			else:
 				possible_road = False
 				for edge in G[prev]:
+					#print("edge {}, road {}".format(edge, road))
 					if road == edge[0]:
 						#print("e1 {}, e2 {}".format(edge[1], edge[2]))
 						if edge[1] > edge[2]:
 							s = road
 							prev = road
 							possible_road = True
+						if edge[1] == edge[2]:
+							temp_path.remove(prev)
+							#print("  edge[1] == edge[2]",temp_path, " ", prev)
+							prev = temp_path[0]
+							possible_road = True
+							continue
+
 				if possible_road is False:
 					if prev == 0:
 						return False
 
-					print(temp_path, " ", prev)
+					#print(temp_path, " ", prev)
 					temp_path.remove(prev)
 
 	#print(temp_path)
@@ -102,6 +111,7 @@ def main():
 			return
 		path = recovery_path(temp_path, t)
 		if path is False:
+			#print("path is false")
 			return
 		min_flow = find_min_flow(path)
 		start_flow(min_flow, path)
