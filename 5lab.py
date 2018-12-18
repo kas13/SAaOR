@@ -1,10 +1,3 @@
-# G = [
-# 	[[1,2], [2,3]],
-# 	[[3,13], [0, 2], [2, 0]],
-# 	[[3,6], [0,3], [1, 0], [4,7]],
-# 	[[2, 6], [1, 13], [4,12]],
-# 	[[3,12], [2, 7]]
-# ]
 #[0] end node number 
 #[1] capacity
 #[2] max flow
@@ -26,13 +19,7 @@ G = [
 	[[3, 2, 6], [5, 10, 10]],
 	[[5, 0, 1]]
 ]
-# G = [
-# 	[[1, 9, 3], [2, 10, 7], [3, -1, 7], [4, 5, 20]],
-# 	[[4, -4, 10]],
-# 	[[1, -3, 5]],
-# 	[[2, 2, 6], [4, 10, 10]],
-# 	[[4, 0, 1]]
-# ]
+
 
 #D min way to node dijkstra
 #U patential
@@ -47,6 +34,7 @@ M = []
 P = dict()
 S = 0
 T = 4
+
 
 def find_max_flow(path):
 	max_flow = 10000
@@ -80,8 +68,6 @@ def add_weight_edge():
 			else:
 				edge[4] = INF
 
-	#print("added weight ", G)
-
 
 def bellman():
 	global G, U
@@ -89,10 +75,8 @@ def bellman():
 		for start, node in enumerate(G):
 			for edge in node:
 				finish = edge[0]
-				#print("U[start] + edge[1] < U[finish] ", "{} + {} < {}".format(U[start],edge[1],U[finish]))
 				if U[start] + edge[1] < U[finish] and edge[2] - edge[3] > 0:
 					U[finish] = U[start] + edge[1]
-	#print("bellman  ", U)
 
 
 def dijkstra():
@@ -112,30 +96,13 @@ def dijkstra():
 		for j in G[v]:
 			to = j[0] #node number
 			l = j[4] #weight
-			#print("to {}, len {}".format(to, l))
 			if D[v] + l < D[to]:
 				D[to] = D[v] + l
-				#print("P[to] {}, V {}".format(to, v))
 				if to in P:
 					P[to] = v
 				else:
 					P[to] = v
 	path = restore_path(P, T)
-
-	# for j in range(1,n):
-	# 	#print("Node {}, shortest path {}  Parent: ".format(j,D[j]))
-	# 	prev_parent = ""
-	# 	for p in range(1,j+1):
-	# 		try:
-	# 			parent = P[p]
-	# 		except:
-	# 			pass
-	# 		if parent != prev_parent:
-	# 			if j == T and parent != 0:
-	# 				path.append(parent)
-	# 			#print("{}   ".format(parent))
-	# 		prev_parent = parent
-	# path.append(T)
 
 	return path
 
@@ -151,9 +118,6 @@ def restore_path(P, u):
 		if u == 0:
 			break
 	return path[::-1]
-
-
-
 
 
 def main():
@@ -172,7 +136,6 @@ def main():
 		bellman()
 		add_weight_edge()
 		path = dijkstra()
-		#print("path ", path)
 		if path == [T]:
 			break
 		max_flow = find_max_flow(path)
